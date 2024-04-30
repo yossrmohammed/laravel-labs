@@ -18,11 +18,13 @@ Route::get('/', function () {
 });
 use App\Http\Controllers\PostController;
 Route::get('/posts',[PostController::class,'index'])->name('posts.home');
+Route::post('/posts', [PostController::class,'store'])->name('posts.store');
 
 Route::get("/posts/create",[PostController::class,'create'])->name('post.create');
 Route::get("/posts/{id}", [PostController::class,'show'])->name('post.show');
-Route::get("/posts/edit/{id}", [PostController::class,'edit'])->name('post.edit');
-Route::get("/posts/delete/{id}", [PostController::class,'destroy'])->name('post.delete');
+Route::get('/posts/{id}/edit', [PostController::class,'edit'])->name('post.edit');
+Route::put('/posts/{id}', [PostController::class,'update'])->name('post.update');
+Route::delete("/posts/{id}/delete", [PostController::class,'destroy'])->name('post.destroy');
 
 
 

@@ -1,24 +1,28 @@
 @extends("layouts.app")
 
 @section("content")
-    <h1>update Post</h1>
-    <form action="/submit_post" method="POST" enctype="multipart/form-data">
+    <h1>Update Post</h1>
+    <form action="{{ route('post.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('put')
+
         <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" value='@php
-            echo $post['title']
-        @endphp'><br>
+        <input type="text" id="title" name="title" value="{{ $post->title }}"><br>
         
         <label for="body">Body:</label><br>
-        <input type="text" id="body" name="body"
-        value='@php
-            echo $post['body']
-        @endphp'
-        ></input><br>
+        <input type="text" id="body" name="body" value="{{ $post->body }}"><br>
         
-        <label for="image">Image:</label><br>
-        <input type="file" id="image" name="image"><br>
+        <label for="user">User:</label><br>
+        <select name="posted_by" id="user">
+            @foreach($users as $user)
+                <option value="{{ $user->name }}" @if($user->name === $post->posted_by) selected @endif>{{ $user->name }}</option>
+            @endforeach
+        </select><br>
         
+        <div class="form-group">
+            <label for="image">image</label>
+            <input type="file" class="form-control-file" id="image" name="image">
+          </div>
         <button type="submit" class="btn btn-info">Submit</button>
     </form>
-</body>
 @endsection

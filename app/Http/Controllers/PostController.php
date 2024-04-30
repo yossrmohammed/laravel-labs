@@ -3,42 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
-    private $posts= [
-        ['id'=>1 ,'title'=>'title1' , 'body'=> 'body1', 'image'=>'img1.jpg'],
-        ['id'=>2 ,'title'=>'title2' , 'body'=> 'body2', 'image'=>'img2.jpeg'],
-        ['id'=>3 ,'title'=>'title3' , 'body'=> 'body3', 'image'=>'img3.jpeg'],
-        ['id'=>4 ,'title'=>'title4' , 'body'=> 'body4', 'image'=>'img4.jpeg']
+    private function file_operations($request){
 
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $filepath=$image->store("images","posts_uploads" );
+            return $filepath;
 
-    ];
+        }
+        return null;
+    }
+
     function index(){
-    return view("index" , ["posts"=>$this->posts]);
+        $posts = Post::paginate(5, $columns=['*'], $pageName='posts');
+        $users = User::all();
+    return view("index" , ["posts"=>$posts]);
     }
     function show($id){
-        if ($id <=count($this->posts)){
-            $ptd =$this->posts[$id-1];
-            return view('show', ["post"=>$ptd]);
-        }
-        return abort(404);
+            $post = Post::findOrFail($id);
+
+            return view('show', ["post"=>$post]);
     }
     function create(){
-        return view("create");
+        $users = User::all();
+        return view("create", ['users'=>$users]);
+    }
+    function store(){
+        $request = request();
+
+        $request_params = request()->all();
+        $filepath = $this->file_operations($request);
+        $post = new Post();
+        $post->title = $request_params['title'];
+        $post->body = $request_params['body'];
+        $post->posted_by = $request_params['posted_by'];
+
+        $post->image = $filepath;
+        $post->save();
+        return to_route('post.show', $post->id);
     }
     function edit($id){
-        if ($id <=count($this->posts)){
-            $ptd =$this->posts[$id-1];
-            return view('edit', ["post"=>$ptd]);
-        }
-        return abort(404);
+        $post = Post::findOrFail($id);
+        $users = User::all();
+
+            return view('edit', ["post"=>$post, "users"=>$users]);
+    }
+    function update($id){
+        $request = request();
+        $filepath = $this->file_operations($request);
+        $post = Post::findOrFail($id);
+        $update_data = request()->all();
+        $post->title = $update_data['title']; 
+        $post->body = $update_data['body'];
+        $post->posted_by = $update_data['posted_by'];
+        $post->image = $filepath;
+
+        $post->save();
+        return to_route("posts.home");
     }
     function destroy($id){
-        if ($id <=count($this->posts)){
-            $ptd =$this->posts[$id-1];
-            return view('destroy', ["post"=>$ptd]);
-        }
-        return abort(404);
+        $post = Post::findOrFail($id);
+        $post->delete();
+        
+        return to_route('posts.home');
     }
 }

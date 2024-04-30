@@ -6,7 +6,9 @@
                 src="{{asset('images/posts/'.$post['image'])}}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{$post['title']}}</h5>
-                <p class="card-text">Salary:{{$post['body']}}</p>
+                <p class="card-text">body:{{$post['body']}}</p>
+                <p class="card-text">posted by:{{$post['posted_by']}}</p>
+
                 <a href="{{route("posts.home")}}" class="btn btn-primary">Back</a>
             </div>
         </div>
