@@ -17,10 +17,11 @@
                 <td> <a href="{{route('post.edit',$post['id'] )}}" class="btn btn-info">Edit  </a></td>
                 <td>
                     <td>
-                        <form method="post" action="{{route('post.destroy', $post->id)}}">
-                            @method('delete')
+                        <form id="delete-form" action="{{ route('post.destroy', ['id' => $post['id']]) }}" method="POST">
                             @csrf
-                            <input type="submit" value="Delete" class="btn btn-danger">
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+                           
                         </form>
                     </td>
                     
@@ -34,3 +35,10 @@
     </table>
     {{$posts ->links()}}
 @endsection
+<script>
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete this post?")) {
+            document.getElementById('delete-form').submit();
+        }
+    }
+</script>
