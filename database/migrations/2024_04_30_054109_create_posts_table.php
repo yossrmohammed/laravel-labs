@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('body');
             $table->string('image')->nullable;
-            $table->string('posted_by');
+            $table->unsignedBigInteger('posted_by'); 
             $table->timestamps();
         });
     }
