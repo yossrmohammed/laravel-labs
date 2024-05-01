@@ -18,7 +18,7 @@
         <td>{{ $post->title }}</td>
         <td>{{ $post->body }}</td>
         <td>{{ $post->posted_by }}</td>
-        <td>{{ $post->created_at->format('Y/m/d H:i') }}</td> <!-- Format created_at using Carbon -->
+        <td>{{ $post->created_at->format('Y/m/d H:i') }}</td> 
         <td>
             <a href="{{ route('post.show', $post->id) }}" class="btn btn-info">Show</a>
             <a href="{{ route('post.edit', $post->id) }}" class="btn btn-info">Edit</a>
