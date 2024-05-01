@@ -15,7 +15,7 @@
         <label for="user">User:</label><br>
         <select name="posted_by" id="user">
             @foreach($users as $user)
-                <option value="{{ $user->name }}" @if($user->name === $post->posted_by) selected @endif>{{ $user->name }}</option>
+                <option value="{{ $user->id }}" @if($user->id === $post->posted_by) selected @endif>{{ $user->name }}</option>
             @endforeach
         </select><br>
         
