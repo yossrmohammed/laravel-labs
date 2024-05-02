@@ -33,18 +33,11 @@ class PostController extends Controller
         $users = User::all();
         return view("create", ['users'=>$users]);
     }
-    function store(){
-        $request = request();
-
+    function store(Request $request){
         $request_params = request()->all();
         $filepath = $this->file_operations($request);
-        $post = new Post();
-        $post->title = $request_params['title'];
-        $post->body = $request_params['body'];
-        $post->posted_by = $request_params['posted_by'];
-
-        $post->image = $filepath;
-        $post->save();
+        $request_params['image'] = $filepath;
+        $post = Post::create($request_params);
         return to_route('post.show', $post->id);
     }
     function edit($id){
@@ -78,4 +71,4 @@ class PostController extends Controller
         $posts->restore();
         return to_route('posts.home');
     }
-}
+} 
