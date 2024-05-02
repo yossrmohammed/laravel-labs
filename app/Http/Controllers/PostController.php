@@ -34,7 +34,12 @@ class PostController extends Controller
         return view("create", ['users'=>$users]);
     }
     function store(Request $request){
-
+        $request->validate([
+            'title' => 'required|min: 3|unique:posts',
+            'body' => 'required|min:10',
+            'image' => 'required',
+            'posted_by' => 'required', 
+        ]);
         $request_params = request()->all();
         $filepath = $this->file_operations($request);
         $request_params['image'] = $filepath;
