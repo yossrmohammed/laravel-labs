@@ -15,6 +15,8 @@
         <td>Body</td>
         <td>Posted By</td>
         <td>Created At</td>
+        <td> Slug</td>
+
         <td>Actions</td>
     </tr>
     @foreach($posts as $post)
@@ -24,6 +26,7 @@
         <td>{{ $post->body }}</td>
         <td>{{ $post->posted_by }}</td>
         <td>{{ $post->created_at->format('Y/m/d H:i') }}</td> 
+        <td>{{ $post->title_slug }}</td>
         <td>
             <a href="{{ route('post.show', $post->id) }}" class="btn btn-info">Show</a>
             <a href="{{ route('post.edit', $post->id) }}" class="btn btn-info">Edit</a>

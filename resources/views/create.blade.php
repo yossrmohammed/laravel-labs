@@ -28,7 +28,7 @@
         <label for="user">Select User:</label><br>
         <select class="form-select" id="user" name="posted_by" aria-label="Select User">
             @foreach($users as $user)
-                <option value="{{ $user->name }}">{{ $user->name }}</option>
+                <option value="{{ $user->id }}">{{ $user->name }}</option>
             @endforeach
         </select><br>
         @error("posted_by")

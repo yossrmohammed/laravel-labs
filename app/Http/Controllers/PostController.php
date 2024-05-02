@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 class PostController extends Controller
 {
     private function file_operations($request){
@@ -67,6 +68,7 @@ class PostController extends Controller
         $post->title = $update_data['title']; 
         $post->body = $update_data['body'];
         $post->posted_by = $update_data['posted_by'];
+        $post->title_slug = Str ::slug($update_data['title']);
         $post->image = $filepath;
 
         $post->save();
