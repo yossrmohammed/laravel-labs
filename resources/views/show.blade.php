@@ -17,7 +17,27 @@
         <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
     </div>
 </div>
-
+<div class="mt-4">
+    <h2>Comments</h2>
+    @if ($post->comments->count() > 0)
+        <ul class="list-group">
+            @foreach ($post->comments as $comment)
+                <li class="list-group-item">{{ $comment->body }}</li>
+            @endforeach
+        </ul>
+    @else
+        <p>No comments available.</p>
+    @endif
+</div>
+<form action="{{ route('comment.store') }}" method="POST">
+    @csrf
+    
+    <input type="hidden" name="post_id" value="{{ $post->id }}">
+    <textarea name="content" placeholder="Enter your comment"></textarea>
+    <button type="submit" class="btn btn-success">Submit Comment</button>
+</form>
+</div>
+</div>
 <script>
     function confirmDelete() {
         if (confirm("Are you sure you want to delete this post?")) {

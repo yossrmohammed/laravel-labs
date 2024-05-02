@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 class PostController extends Controller
 {
+
     private function file_operations($request){
 
         if($request->hasFile('image')){
