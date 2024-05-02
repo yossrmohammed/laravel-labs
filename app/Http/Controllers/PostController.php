@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-
+use Illuminate\Validation\Rule;
 class PostController extends Controller
 {
     private function file_operations($request){
@@ -53,9 +53,16 @@ class PostController extends Controller
             return view('edit', ["post"=>$post, "users"=>$users]);
     }
     function update($id){
+        $post = Post::findOrFail($id);
+        $validated = request()->validate([
+            'title' => [
+                'required',
+                Rule::unique('posts')->ignore($post->id),'min:3'],
+            'body' => ['required','min:10'],
+            'posted_by'=>['required']
+        ]);;
         $request = request();
         $filepath = $this->file_operations($request);
-        $post = Post::findOrFail($id);
         $update_data = request()->all();
         $post->title = $update_data['title']; 
         $post->body = $update_data['body'];
