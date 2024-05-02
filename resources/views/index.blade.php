@@ -2,8 +2,11 @@
 
 @section("content")
 <a href="{{ route('post.create') }}" class="btn btn-dark">Create Post</a>
-<a href="{{ route('posts.restore') }}" class="btn btn-dark">Restore Deleted Posts</a>
-
+<form action="{{ route('posts.restore') }}" method="POST">
+    @csrf
+    @method('PUT')
+    <button type="submit" class="btn btn-dark mt-3">Restore Soft Deleted Posts</button>
+</form>
 <h1 style="background-color: white;">All posts</h1>
 <table class='table'>
     <tr>

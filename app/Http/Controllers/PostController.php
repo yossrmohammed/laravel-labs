@@ -34,6 +34,7 @@ class PostController extends Controller
         return view("create", ['users'=>$users]);
     }
     function store(Request $request){
+
         $request_params = request()->all();
         $filepath = $this->file_operations($request);
         $request_params['image'] = $filepath;
@@ -65,10 +66,9 @@ class PostController extends Controller
         
         return to_route('posts.home');
     }
-    public function restore()
+     function restore()
     {
-        $posts = Post::onlyTrashed()->get();
-        $posts->restore();
-        return to_route('posts.home');
+        $restoredCount = Post::onlyTrashed()->restore();
+        return redirect()->back()->with('success', $restoredCount . ' soft deleted posts restored successfully');
     }
 } 
