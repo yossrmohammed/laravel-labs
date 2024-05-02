@@ -2,6 +2,8 @@
 
 @section("content")
 <a href="{{ route('post.create') }}" class="btn btn-dark">Create Post</a>
+<a href="{{ route('posts.restore') }}" class="btn btn-dark">Restore Deleted Posts</a>
+
 <h1 style="background-color: white;">All posts</h1>
 <table class='table'>
     <tr>

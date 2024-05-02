@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('image')->nullable;
             $table->unsignedBigInteger('posted_by'); 
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 

@@ -72,4 +72,10 @@ class PostController extends Controller
         
         return to_route('posts.home');
     }
+    public function restore()
+    {
+        $posts = Post::onlyTrashed()->get();
+        $posts->restore();
+        return to_route('posts.home');
+    }
 }
