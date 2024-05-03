@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Tags\Tag;
 class PostController extends Controller
 {
 
@@ -45,14 +46,16 @@ class PostController extends Controller
             'title' => 'required|min:3|unique:posts',
             'body' => 'required|min:10',
             'image' => 'required',
+            'tags' => 'nullable|string'
         ]);
-    
         $request_params = $request->all();
         $request_params['posted_by'] = Auth::id();
         $filepath = $this->file_operations($request);
-        $request_params['image'] = $filepath;
-    
+        $request_params['image'] = $filepath;     
         $post = Post::create($request_params);
+        $tags = explode(',', $request_params['tags']);
+        $post->attachTags($tags);
+   
     
         return redirect()->route('post.show', $post->id);
     }
