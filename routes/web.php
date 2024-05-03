@@ -32,3 +32,7 @@ Route::post('/comments', [CommentController::class, 'store'])->name('comment.sto
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

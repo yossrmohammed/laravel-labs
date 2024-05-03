@@ -1,6 +1,6 @@
 @extends("layouts.app")
 
-@section("body")
+@section("content")
 <div class="card" style="width: 18rem;">
     <img height="300" src="{{ asset('images/posts/'.$post['image']) }}" class="card-img-top" alt="...">
     <div class="card-body">
