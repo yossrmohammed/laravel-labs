@@ -65,6 +65,11 @@
                             </div>
                         </div>
                     </form>
+                    <div class="col-md-8 offset-md-4">
+                        <a href="{{ route('auth.github') }}" type="submit" class="btn btn-primary">
+                            {{ __('Login with github') }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
