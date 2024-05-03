@@ -49,13 +49,7 @@ class PostsController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
     
-        
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/posts', 'public');
-        } else {
-            return response()->json(['error' => 'Image field is required'], 422);
-        }
-    
+        $imagePath = $this->file_operations($request);
         
         $post = new Post();
         $post->title = $request->title;
@@ -89,6 +83,7 @@ class PostsController extends Controller
         $validator = Validator::make(request()->all(), [
             'title' => Rule::unique('posts')->ignore($post),
             'body' => 'required|min:10',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'posted_by' => 'required',
         ]);
         if ($validator->fails()) {
@@ -97,7 +92,9 @@ class PostsController extends Controller
 
         $file_path = $this->file_operations(request());
         $request_parms = request()->all();
-
+        if($file_path != null){
+             $request_parms['image'] = $file_path;
+            }
             //$post->save();
         $post->update($request_parms);
         return response()->json(['message' => 'Post updated successfully'], 200);
