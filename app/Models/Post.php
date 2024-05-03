@@ -24,4 +24,8 @@ class Post extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'posted_by');
+    }
 }

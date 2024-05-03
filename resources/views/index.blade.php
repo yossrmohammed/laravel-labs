@@ -24,7 +24,7 @@
         <td>{{ $post->id }}</td>
         <td>{{ $post->title }}</td>
         <td>{{ $post->body }}</td>
-        <td>{{ $post->posted_by }}</td>
+        <td>{{ $post->user->name }}</td>
         <td>{{ $post->created_at->format('Y/m/d H:i') }}</td> 
         <td>{{ $post->title_slug }}</td>
         <td>
