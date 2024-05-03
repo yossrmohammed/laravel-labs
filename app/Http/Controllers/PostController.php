@@ -7,9 +7,13 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
 
+    function __construct(){
+        $this->middleware('auth');
+    }
     private function file_operations($request){
 
         if($request->hasFile('image')){
@@ -35,18 +39,22 @@ class PostController extends Controller
         $users = User::all();
         return view("create", ['users'=>$users]);
     }
-    function store(Request $request){
+    function store(Request $request)
+    {
         $request->validate([
-            'title' => 'required|min: 3|unique:posts',
+            'title' => 'required|min:3|unique:posts',
             'body' => 'required|min:10',
             'image' => 'required',
-            'posted_by' => 'required', 
         ]);
-        $request_params = request()->all();
+    
+        $request_params = $request->all();
+        $request_params['posted_by'] = Auth::id();
         $filepath = $this->file_operations($request);
         $request_params['image'] = $filepath;
+    
         $post = Post::create($request_params);
-        return to_route('post.show', $post->id);
+    
+        return redirect()->route('post.show', $post->id);
     }
     function edit($id){
         $post = Post::findOrFail($id);
@@ -56,6 +64,8 @@ class PostController extends Controller
     }
     function update($id){
         $post = Post::findOrFail($id);
+        $this->authorize('delete', $post);
+
         $validated = request()->validate([
             'title' => [
                 'required',
@@ -76,7 +86,9 @@ class PostController extends Controller
         return to_route("posts.home");
     }
     function destroy($id){
+        
         $post = Post::findOrFail($id);
+        $this->authorize('delete', $post);
         $post->delete();
         
         return to_route('posts.home');

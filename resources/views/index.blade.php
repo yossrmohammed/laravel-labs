@@ -29,12 +29,16 @@
         <td>{{ $post->title_slug }}</td>
         <td>
             <a href="{{ route('post.show', $post->id) }}" class="btn btn-info">Show</a>
+            @can('update', $post)
             <a href="{{ route('post.edit', $post->id) }}" class="btn btn-info">Edit</a>
+        @endcan
+        @can('delete', $post)
             <form id="delete-form-{{ $post->id }}" action="{{ route('post.destroy', $post->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $post->id }}')">Delete</button>
             </form>
+        @endcan
         </td>
     </tr>
     @endforeach
