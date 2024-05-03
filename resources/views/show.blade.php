@@ -8,6 +8,12 @@
         <p class="card-text">body:{{ $post->body }}</p>
         <p class="card-text">posted by:{{ $post->posted_by }}</p>
         <p class="card-text">created at:{{ $post->created_at->format('Y/m/d H:i') }}</p>
+        <ul>
+            @foreach($post->tags as $tag)
+                <li>{{ $tag->name }}</li>
+            @endforeach
+        </ul>
+        
         <form id="delete-form" action="{{ route('post.destroy', ['id' => $post['id']]) }}" method="POST">
             @csrf
             @method('DELETE')
